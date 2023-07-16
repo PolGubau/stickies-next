@@ -7,7 +7,7 @@
   "author": "",
   "scripts": {
     "dev": "next",
-    "build": "prisma generate && nest build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "postinstall": "prisma generate",
     "test:cov": "jest --coverage"
