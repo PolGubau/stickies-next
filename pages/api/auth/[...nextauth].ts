@@ -4,6 +4,7 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GitHubProvider from "next-auth/providers/github";
 import EmailProvider from "next-auth/providers/email";
 import prisma from "../../../lib/prisma";
+import Credentials from "next-auth/providers/credentials";
 
 const authHandler: NextApiHandler = (req, res) =>
   NextAuth(req, res, authOptions);
@@ -12,7 +13,7 @@ export default authHandler;
 
 export const authOptions: NextAuthOptions = {
   pages: {
-    signIn: "/auth/email-signin",
+    signIn: "/auth/signin",
     signOut: "/auth/signout",
     error: "/auth/error", // Error code passed in query string as ?error=
     verifyRequest: "/auth/verify-request", // (used for check email message)
@@ -34,6 +35,9 @@ export const authOptions: NextAuthOptions = {
       },
       from: process.env.SMTP_FROM,
     }),
+    
+  
+    
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,

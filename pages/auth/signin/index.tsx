@@ -1,3 +1,4 @@
+import { Layout } from "components/Layout";
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
@@ -8,14 +9,16 @@ export default function SignIn({
   csrfToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
-    <form method="post" action="/api/auth/signin/email">
-      <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-      <label>
-        Email address
-        <input type="email" id="email" name="email" />
-      </label>
-      <button type="submit">Sign in with Email</button>
-    </form>
+    <Layout>
+      <form method="post" action="/api/auth/signin/email">
+        <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+        <label>
+          Email address
+          <input type="email" id="email" name="email" />
+        </label>
+        <button type="submit">Sign in with Email</button>
+      </form>
+    </Layout>
   );
 }
 
