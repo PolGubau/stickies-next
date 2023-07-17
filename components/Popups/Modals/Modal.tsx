@@ -1,12 +1,14 @@
 import { Wrapper } from "components/Wrappers";
 import { ModalStyled } from "./Modal.styled";
-import { Button } from "components";
+import { Button, Icon } from "components";
+import { IconType } from "components/Icon/Icon";
 
 interface Props {
-  handleClose: () => void;
-  handleSubmit: () => void;
+  handleClose?: () => void;
+  handleSubmit?: () => void;
   children?: React.ReactNode;
   title?: string;
+  icon?: IconType;
   footer?: React.ReactNode;
   maxWidth?: string;
 }
@@ -16,26 +18,27 @@ const Modal: React.FC<Props> = ({
   handleSubmit,
   children,
   title,
+  icon,
   maxWidth,
 }) => {
   return (
     <Wrapper open={true} handleClose={handleClose}>
       <ModalStyled maxWidth={maxWidth}>
-        <div className="modal__header">
+        {Boolean(handleClose) && (
+          <Icon icon="close" className="close" onClick={handleClose} />
+        )}
+        <header>
+          <Icon icon={icon} size="40px" />
           <h2>{title}</h2>
-          <button onClick={handleClose}>
-            <i className="fas fa-times"></i>
-          </button>
-        </div>
-        <div className="modal__body">{children}</div>
-        <div className="modal__footer">
-          <Button onClick={handleSubmit} primary>
-            Submit
-          </Button>
-          <Button onClick={handleClose} outlined>
-            Cancel
-          </Button>
-        </div>
+        </header>
+        <main>{children}</main>
+        <footer>
+          {Boolean(handleSubmit) && (
+            <Button onClick={handleSubmit} type="main">
+              Submit
+            </Button>
+          )}
+        </footer>
       </ModalStyled>
     </Wrapper>
   );

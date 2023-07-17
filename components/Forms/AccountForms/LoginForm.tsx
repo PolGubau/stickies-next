@@ -24,12 +24,6 @@ const LoginForm = () => {
         value={form.usernameOrEmail}
         onChange={(usernameOrEmail) => setForm({ ...form, usernameOrEmail })}
       />
-      <TextField
-        label="Password"
-        value={form.password}
-        type="password"
-        onChange={(password) => setForm({ ...form, password })}
-      />
       <Button icon={"arrow"}>Sign In</Button>
     </LoginFormStyled>
   );

@@ -14,7 +14,7 @@ export interface Language {
   code: string;
   country: string;
   language: string;
-  flag: JSX.Element;
+  flag?: JSX.Element;
   available?: boolean;
 }
 

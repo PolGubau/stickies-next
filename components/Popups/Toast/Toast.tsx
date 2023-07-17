@@ -1,8 +1,8 @@
 import { useRecoilState } from "recoil";
-import ToastStateAtom, { emptyToast } from "states/toastState";
 import styled, { keyframes } from "styled-components";
 import { GrClose } from "react-icons/gr";
 import { Button } from "components";
+import ToastStateAtom, { emptyToast } from "states/toastState";
 
 const bgLoadingAnimation = keyframes`
     from{
@@ -72,10 +72,19 @@ const Toast = () => {
   const handleClose = () => {
     setToastState(emptyToast);
   };
+  const actionClick = () => {
+    toast.action?.onClick();
+    handleClose();
+  };
 
   return (
     <ToastStyled duration={toast.duration ?? 3000} type={toast.type}>
       <p>{toast.message}</p>
+      {toast.action && (
+        <Button onClick={actionClick} type="transparent">
+          {toast.action.label}
+        </Button>
+      )}
       <Button icon={<GrClose />} onClick={handleClose} />
     </ToastStyled>
   );

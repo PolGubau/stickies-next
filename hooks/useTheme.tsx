@@ -1,24 +1,24 @@
-import { KEYS } from "Models/localStorageKeys";
+import { KEYS } from "Models";
 import { useRecoilState } from "recoil";
-import themeAtom from "../states/themeState";
+import { themeAtom } from "states";
 import { Theme, lightTheme } from "theme";
-import { getLocalStorage, setToLocalStorage } from "../utils";
+import { getLocalStorage, setToLocalStorage } from "utils";
 
 export const useTheme = () => {
-  const [activeTheme, setActiveTheme] = useRecoilState<Theme>(themeAtom);
+  const [theme, setTheme] = useRecoilState<Theme>(themeAtom);
 
   const getTheme = () => {
     const themeStorage = getLocalStorage(
       KEYS.theme,
       JSON.stringify(lightTheme)
     );
-    return activeTheme || themeStorage;
+    return theme || themeStorage;
   };
 
   const changeTheme = (theme: Theme) => {
     setToLocalStorage(KEYS.theme, JSON.stringify(theme));
-    setActiveTheme(theme);
+    setTheme(theme);
   };
 
-  return { activeTheme, changeTheme, getTheme };
+  return { theme, changeTheme, getTheme };
 };

@@ -4,6 +4,5 @@ export * from './copyToClipboard';
 export * from './dateTransform';
 export * from './generateUUID';
 export * from './icons';
-export * from './languages';
 export * from './manageLocalStorage';
 export * from './sorters';

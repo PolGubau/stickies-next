@@ -4,7 +4,6 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GitHubProvider from "next-auth/providers/github";
 import EmailProvider from "next-auth/providers/email";
 import prisma from "../../../lib/prisma";
-import Credentials from "next-auth/providers/credentials";
 
 const authHandler: NextApiHandler = (req, res) =>
   NextAuth(req, res, authOptions);
@@ -34,10 +33,8 @@ export const authOptions: NextAuthOptions = {
         },
       },
       from: process.env.SMTP_FROM,
+      maxAge: 10 * 60, // Magic links are valid for 10 min only
     }),
-    
-  
-    
   ],
   adapter: PrismaAdapter(prisma),
   secret: process.env.SECRET,

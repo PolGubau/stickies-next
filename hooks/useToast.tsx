@@ -1,21 +1,23 @@
 import { useSetRecoilState } from "recoil";
-import ToastStateAtom, { type ToastType } from "../states/toastState";
+import ToastStateAtom, { IToast, ToastType } from "states/toastState";
 
 const useToast = (): {
-  triggerToast: (message?: string, type?: ToastType, duration?: number) => void;
+  triggerToast: (props: IToast) => void;
 } => {
   const trigger = useSetRecoilState(ToastStateAtom);
 
-  const triggerToast = (
+  const triggerToast = ({
     message = "Copied to clipboard",
-    type: ToastType = "success",
-    duration = 3000
-  ): void => {
+    type = "success" as ToastType,
+    duration = 3000,
+    action,
+  }: IToast): void => {
     trigger({
       show: true,
       message,
       type,
       duration,
+      action,
     });
   };
 

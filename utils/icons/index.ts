@@ -1,3 +1,2 @@
-export * from './getFlagByName';
-export * from './getIconByInputType';
+export * from './getIcon';
 export * from './icons.data';

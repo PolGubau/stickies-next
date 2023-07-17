@@ -1,4 +1,3 @@
-export * from "./useAuth";
 export { default as useDebounce } from "./useDebounce";
 export * from "./useLocalStorage";
 export { default as useOnClickOutside } from "./useOnClickOutside";

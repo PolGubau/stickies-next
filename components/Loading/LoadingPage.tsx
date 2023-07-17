@@ -7,7 +7,7 @@ const LoadingPageStyled = styled.main`
   justify-content: center;
   height: 100vh;
   text-align: center;
-  gap: ${({ theme }) => theme.spacing.large};
+  gap: ${({ theme }) => theme.spacing.large || "2rem"};
 `;
 interface Props {
   message?: string;

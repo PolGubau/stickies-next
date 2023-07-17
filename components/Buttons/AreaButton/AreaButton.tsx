@@ -8,9 +8,7 @@ export interface IButtonProps {
   style?: React.CSSProperties;
   title?: string;
   name?: string;
-  outlined?: boolean;
   subTitle?: string;
-  deleteButton?: boolean;
 }
 
 const AreaButton = ({
@@ -21,7 +19,6 @@ const AreaButton = ({
   title = "Here!",
   style,
   subTitle = "",
-  deleteButton = false,
 }: IButtonProps): JSX.Element => {
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (onClick) {

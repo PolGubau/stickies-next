@@ -1,52 +1,59 @@
 import { useState } from "react";
 import { ButtonStyled } from "./ButtonStyled";
-import Modal from "components/Popups/Modals/Modal";
 import { Icon } from "components/Icon";
+import { IconType } from "components/Icon/Icon";
+import { Modal } from "components";
+
+//
+
 export interface IButtonProps {
   children?: React.ReactNode | null;
-  icon?: JSX.Element | null | string;
-  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
+  icon?: IconType;
+  onClick?: any;
   disabled?: boolean;
   className?: string;
   id?: string;
-  type?: "button" | "submit" | "reset";
+  buttonType?: "button" | "submit" | "reset";
   style?: React.CSSProperties;
   title?: string;
   name?: string;
   value?: string;
   autoFocus?: boolean;
-  primary?: boolean;
-  outlined?: boolean;
   label?: string;
-  deleteButton?: boolean;
-  iconLeft?: boolean;
+  type?: "main" | "normal" | "error" | "transparent";
+  size?: "small" | "normal" | "large";
+  isAsync?: boolean;
+  fullWidth?: boolean;
 }
 
 const Button = ({
   children = null,
-  icon = null,
+  icon,
+  fullWidth = false,
   onClick,
   disabled,
   className,
   id,
-  type,
+  buttonType = "button",
   style,
   title,
   name,
   value,
-  primary = false,
+  isAsync = false,
   autoFocus,
-  outlined = false,
   label = "",
-  deleteButton = false,
-  iconLeft = false,
+  size = "normal",
+  type = "normal",
 }: IButtonProps): JSX.Element => {
   const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (onClick) {
-      if (deleteButton) {
+      if (type === "error") {
         setOpenModal(true);
+      } else if (isAsync) {
+        setLoading(true);
       } else {
         onClick(e);
       }
@@ -54,13 +61,12 @@ const Button = ({
   };
   return (
     <ButtonStyled
+      $fullWidth={fullWidth}
+      $size={size}
       className={className}
       id={id}
       style={style}
       title={title}
-      primary={primary}
-      outlined={outlined}
-      deleteButton={deleteButton}
     >
       {openModal && (
         <Modal
@@ -75,20 +81,22 @@ const Button = ({
       )}
       {label && <span>{label}</span>}
       <button
+        className={`type-${type}`}
         onClick={handleClick}
         disabled={disabled}
         autoFocus={autoFocus}
-        type={type}
+        type={buttonType}
         name={name}
         value={value}
       >
-        {icon != null && iconLeft && <Icon icon={icon} />}
-        {children ? (
+        {icon != null && <Icon icon={icon} />}
+        {loading ? (
+          <Icon icon="loading" />
+        ) : children ? (
           <span>{children}</span>
         ) : value ? (
           <span>{value}</span>
-        ) : null}{" "}
-        {icon != null && !iconLeft && <Icon icon={icon} />}
+        ) : null}
       </button>
     </ButtonStyled>
   );

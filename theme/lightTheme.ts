@@ -31,7 +31,7 @@ const lightTheme: Theme = {
   shadows: {
     small: "0px 1px 5px rgba(0, 0, 0, 0.16)",
     normal: "0px 3px 6px rgba(0, 0, 0, 0.16)",
-    large: "0px 40px 20px #FFD15A44",
+    large: "0px 5px 15px #FFD15A50",
   },
   colors: {
     background: {

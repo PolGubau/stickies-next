@@ -3,6 +3,9 @@ export function getLocalStorage(
   key: string,
   initialValue: string | number | object | null
 ): string | number | object | null {
+  if (typeof window === "undefined") {
+    return initialValue;
+  }
   const value = localStorage.getItem(key);
   if (!value) {
     setToLocalStorage(key, initialValue);

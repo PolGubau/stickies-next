@@ -2,14 +2,18 @@ import { atom } from "recoil";
 
 export type ToastType = "success" | "error";
 
-interface IToastState {
-  message: string;
-  type: "success" | "error";
-  show: boolean;
+export interface IToast {
+  message?: string;
+  type?: "success" | "error";
+  show?: boolean;
   duration?: number;
+  action?: {
+    label: string;
+    onClick: () => void;
+  };
 }
 
-export const emptyToast: IToastState = {
+export const emptyToast: IToast = {
   message: "Action done successfully",
   type: "success",
   show: false,

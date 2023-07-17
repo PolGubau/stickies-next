@@ -1,26 +1,114 @@
-import { Layout } from "components/Layout";
+import { TextField, Button, Text, Icon, Modal } from "components";
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
-import { getCsrfToken } from "next-auth/react";
+import { getCsrfToken, signIn } from "next-auth/react";
+import React, { useState } from "react";
+import { SignInStyled } from "./SignInStyled";
+import { useToast } from "hooks";
+import { formatString } from "utils";
 
-export default function SignIn({
+const SignIn = ({
   csrfToken,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const { triggerToast } = useToast();
+  const [showModal, setShowModal] = useState(false);
+
+  //
+
+  const handleSignIn = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+
+    if (!email) {
+      triggerToast({
+        type: "error",
+        message: "Email is required",
+      });
+      return;
+    }
+
+    try {
+      // Perform sign in
+      const { error } = await signIn("email", {
+        email,
+        redirect: false,
+        callbackUrl: `${window.location.origin}/auth/confirm-request`,
+      });
+      // Something went wrong
+      if (error) {
+        triggerToast({
+          type: "error",
+          message: `${formatString(error)}`,
+        });
+      }
+      setShowModal(true);
+    } catch (error) {
+      triggerToast({
+        type: "error",
+        message: `Error with ${formatString(error.message)}`,
+      });
+    }
+  };
+
+  //
   return (
-    <Layout>
-      <form method="post" action="/api/auth/signin/email">
-        <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-        <label>
-          Email address
-          <input type="email" id="email" name="email" />
-        </label>
-        <button type="submit">Sign in with Email</button>
-      </form>
-    </Layout>
+    <SignInStyled>
+      {showModal && (
+        <Modal title="Check your email" icon="email">
+          <Text>
+            {`We sent a magic link to ${email}. Click the link in the email to sign
+            in to your account.`}
+          </Text>
+        </Modal>
+      )}
+      <section>
+        <Text size={1} weight="bold">
+          Stickies
+        </Text>
+        <div className="bgSection"></div>
+      </section>
+      <section className="formSection">
+        <Text size={1} weight="bold">
+          Your account
+        </Text>
+        <Text>Write your used email or a new one.</Text>
+
+        <form className="form" onSubmit={handleSignIn}>
+          <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+          <TextField
+            size="large"
+            label="Name"
+            name="name"
+            value={name}
+            onChange={(name) => setName(name)}
+          />
+          <TextField
+            size="large"
+            type="email"
+            name="email"
+            label="Email address"
+            value={email}
+            onChange={(email) => setEmail(email)}
+          />
+          <Button
+            buttonType="submit"
+            icon={"arrow"}
+            type="main"
+            size="large"
+            isAsync
+          >
+            Submit
+          </Button>
+        </form>
+      </section>
+    </SignInStyled>
   );
-}
+};
+
+export default SignIn;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const csrfToken = await getCsrfToken(context);

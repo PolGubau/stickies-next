@@ -20,7 +20,7 @@ const Text: React.FC<Props> = ({
   href = undefined, // Link to the text
 }) => {
   return (
-    <TextStyled weight={weight} color={color}>
+    <TextStyled $weight={weight} $color={color}>
       {textSizer({ size, href, text: value ?? String(children) })}
     </TextStyled>
   );

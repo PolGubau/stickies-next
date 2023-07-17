@@ -8,6 +8,8 @@ export const WrapperStyled = styled.section`
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 100;
+  display: grid;
+  place-items: center;
 
   div {
     z-index: 101;
