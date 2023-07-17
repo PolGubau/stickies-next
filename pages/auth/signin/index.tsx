@@ -3,7 +3,7 @@ import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
 } from "next";
-import { getCsrfToken, signIn } from "next-auth/react";
+import { getCsrfToken, getSession, signIn } from "next-auth/react";
 import React, { useState } from "react";
 import { SignInStyled } from "./SignInStyled";
 import { useToast } from "hooks";
@@ -112,6 +112,15 @@ export default SignIn;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const csrfToken = await getCsrfToken(context);
+  const session = await getSession(context);
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
   return {
     props: { csrfToken },
   };
