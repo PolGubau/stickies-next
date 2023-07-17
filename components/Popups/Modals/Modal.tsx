@@ -1,6 +1,6 @@
 import { Wrapper } from "components/Wrappers";
 import { ModalStyled } from "./Modal.styled";
-import { Button, Icon } from "components";
+import { Button, Icon, Text } from "components";
 import { IconType } from "components/Icon/Icon";
 
 interface Props {
@@ -29,7 +29,7 @@ const Modal: React.FC<Props> = ({
         )}
         <header>
           <Icon icon={icon} size="40px" />
-          <h2>{title}</h2>
+          <Text size={2}>{title}</Text>
         </header>
         <main>{children}</main>
         <footer>

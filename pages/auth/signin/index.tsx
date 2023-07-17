@@ -35,7 +35,7 @@ const SignIn = ({
       const { error } = await signIn("email", {
         email,
         redirect: false,
-        callbackUrl: `${window.location.origin}/auth/confirm-request`,
+        callbackUrl: `${window.location.origin}/`,
       });
       // Something went wrong
       if (error) {
