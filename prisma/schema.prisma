@@ -9,15 +9,6 @@ datasource db {
   shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  Int?
-}
-
 model Account {
   id                 Int     @id @default(autoincrement())
   userId             Int     @map("user_id")
@@ -58,11 +49,21 @@ model User {
   image         String?
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
-  posts         Post[]
   accounts      Account[]
   sessions      Session[]
+  stickies      Sticky[]
+  tags          Tag[]
+  Profile       Profile?
 
   @@map(name: "users")
+}
+
+model Profile {
+  id       Int     @id @default(autoincrement())
+  bio      String?
+  darkMode Boolean @default(false)
+  user     User    @relation(fields: [userId], references: [id])
+  userId   Int     @unique
 }
 
 model VerificationToken {
@@ -73,3 +74,42 @@ model VerificationToken {
   @@unique([identifier, token])
   @@map("verificationtokens")
 }
+
+// Stickies are the main entity of the app, they are used to store the user's notes
+
+model Sticky {
+  id        Int       @id @default(autoincrement())
+  title     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  content   String
+  priority  Int       @default(0)
+  isDeleted Boolean   @default(false)
+  isDone    Boolean   @default(false)
+  isPrivate Boolean   @default(false)
+  dueDate   DateTime?
+  tags      Tag[]     @relation("StickyTags")
+  userId    Int       @map(name: "sticky_user_id_fkey")
+  User      User      @relation(fields: [userId], references: [id])
+}
+
+// this object is for creating and storing Tags, one sticky can have multiple tags and one tag can be used for multiple stickies, tag is one title and description, which is optional
+
+model Tag {
+  id          Int      @id @default(autoincrement())
+  title       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  description String?
+  stickies    Sticky[] @relation("StickyTags")
+  userId      Int      @map(name: "tag_user_id_fkey")
+  User        User     @relation(fields: [userId], references: [id])
+}
+
+// In the above models, the relationships are defined as follows:
+// A User can have multiple Stickies (todos) and Tags (categories).
+// A Sticky can have multiple Tags, and a Tag can be associated with multiple Stickies.
+// Each Sticky and Tag is associated with a specific User.
+// The userId field in the Sticky and Tag models represents the foreign key relationship to the User model. It ensures that each Sticky and Tag is associated with a specific User.
+
+// To save the tags relation, you can use the many-to-many relationship between the Sticky and Tag models. This is achieved by having an array of Tag[] in the Sticky model and an array of Sticky[] in the Tag model. Prisma will automatically create the necessary join table to manage the relationship between Stickies and Tags.

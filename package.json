@@ -1,10 +1,10 @@
 {
-  "name": "hello-next",
+  "name": "stickies",
   "version": "1.0.0",
-  "description": "",
+  "description": "A real-time collaborative note-taking app",
   "keywords": [],
   "license": "MIT",
-  "author": "",
+  "author": "Pol Gubau Amores",
   "scripts": {
     "dev": "next",
     "build": "prisma generate && next build",
