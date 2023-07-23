@@ -1,4 +1,4 @@
-import { TextField, Button, Text, Icon, Modal } from "components";
+import { TextField, Button, Text, Modal } from "components";
 import type {
   GetServerSidePropsContext,
   InferGetServerSidePropsType,
@@ -13,7 +13,6 @@ const SignIn = ({
   csrfToken,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
   const { triggerToast } = useToast();
   const [showModal, setShowModal] = useState(false);
 
@@ -78,13 +77,7 @@ const SignIn = ({
 
         <form className="form" onSubmit={handleSignIn}>
           <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
-          <TextField
-            size="large"
-            label="Name"
-            name="name"
-            value={name}
-            onChange={(name) => setName(name)}
-          />
+
           <TextField
             size="large"
             type="email"

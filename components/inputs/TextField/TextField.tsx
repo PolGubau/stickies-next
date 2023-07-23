@@ -1,5 +1,4 @@
 import { ChangeEvent } from "react";
-import { useTheme } from "hooks";
 import { TextFieldStyled } from "./TextFieldStyled";
 interface Props<T> {
   label?: string;
@@ -30,6 +29,7 @@ const TextField = <T extends string | number>({
   onChange,
   disabled,
   required,
+  type = "text",
   error,
   helperText,
   className,
@@ -40,7 +40,7 @@ const TextField = <T extends string | number>({
     const inputValue = e.target.value;
     let newValue: T = inputValue as T;
 
-    if (props.type === "number") {
+    if (type === "number") {
       newValue = Number(inputValue) as T;
       if (isNaN(newValue as number)) {
         newValue = "" as T;
@@ -57,6 +57,7 @@ const TextField = <T extends string | number>({
           React.InputHTMLAttributes<HTMLInputElement>,
           keyof Props<T>
         >)}
+        type={type}
         required={required ?? false}
         disabled={disabled ?? false}
         className={

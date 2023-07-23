@@ -62,6 +62,7 @@ model Profile {
   id       Int     @id @default(autoincrement())
   bio      String?
   darkMode Boolean @default(false)
+  template String? @default("default")
   user     User    @relation(fields: [userId], references: [id])
   userId   Int     @unique
 }

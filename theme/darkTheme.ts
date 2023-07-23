@@ -1,6 +1,6 @@
 import { Theme } from "./types";
 
-const lightTheme: Theme = {
+const darkTheme: Theme = {
   breakpoints: {
     mobile: "480px",
     tablet: "768px",
@@ -35,9 +35,9 @@ const lightTheme: Theme = {
   },
   colors: {
     background: {
-      dark: "#ccc",
-      normal: "#F7F7FF",
-      light: "#ffffff",
+      dark: "#000",
+      normal: "#0E1428",
+      light: "#8782A5",
     },
     main: {
       dark: "#FFC42B",
@@ -50,9 +50,9 @@ const lightTheme: Theme = {
       light: "#f3f2ff",
     },
     text: {
-      dark: "#000",
-      normal: "#0E1428",
-      light: "#8782A5",
+      dark: "#ccc",
+      normal: "#F7F7FF",
+      light: "#ffffff",
     },
     error: {
       dark: "#E77171",
@@ -62,4 +62,4 @@ const lightTheme: Theme = {
   },
 };
 
-export default lightTheme;
+export default darkTheme;
