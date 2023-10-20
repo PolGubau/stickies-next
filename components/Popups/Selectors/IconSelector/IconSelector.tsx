@@ -67,7 +67,7 @@ const IconSelector: React.FC<Props> = ({ value, onChange }) => {
             {icons.map((icon) => (
               <Button
                 key={icon.id}
-                primary={Boolean(icon.name === value)}
+                type={icon.name === value ? "main" : "normal"}
                 className="icon"
                 icon={icon.icon}
                 onClick={() => {
